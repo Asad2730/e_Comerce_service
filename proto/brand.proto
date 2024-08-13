@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package brands;
+
+message Brand {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message GetBrandRequest {
+  int32 id = 1;
+}
+
+message CreateBrandRequest {
+  Brand brand = 1;
+}
+
+message UpdateBrandRequest {
+  Brand brand = 1;
+}
+
+message DeleteBrandRequest {
+  int32 id = 1;
+}
+
+message ListBrandsRequest {
+    
+}
+
+message ListBrandsResponse {
+  repeated Brand brands = 1;
+}
+
+service BrandService {
+  rpc GetBrand(GetBrandRequest) returns (Brand);
+  rpc CreateBrand(CreateBrandRequest) returns (Brand);
+  rpc UpdateBrand(UpdateBrandRequest) returns (Brand);
+  rpc DeleteBrand(DeleteBrandRequest) returns (Brand);
+  rpc ListBrands(ListBrandsRequest) returns (ListBrandsResponse);
+}

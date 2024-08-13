@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package categories;
+
+message Category {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  int32 parent_id = 4;
+}
+
+message GetCategoryRequest {
+  int32 id = 1;
+}
+
+message CreateCategoryRequest {
+  Category category = 1;
+}
+
+message UpdateCategoryRequest {
+  Category category = 1;
+}
+
+message DeleteCategoryRequest {
+  int32 id = 1;
+}
+
+message ListCategoriesRequest {
+    
+}
+
+message ListCategoriesResponse {
+  repeated Category categories = 1;
+}
+
+service CategoryService {
+  rpc GetCategory(GetCategoryRequest) returns (Category);
+  rpc CreateCategory(CreateCategoryRequest) returns (Category);
+  rpc UpdateCategory(UpdateCategoryRequest) returns (Category);
+  rpc DeleteCategory(DeleteCategoryRequest) returns (Category);
+  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
+}
