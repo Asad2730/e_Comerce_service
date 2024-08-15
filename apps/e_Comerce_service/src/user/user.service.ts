@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {  ClientGrpc } from '@nestjs/microservices';
+import { USER_SERVICE_NAME, UserServiceClient } from 'proto/user';
+
+
+
+
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
+
+   private userService:UserServiceClient
+   constructor(@Inject(USER_SERVICE_NAME) private client:ClientGrpc ){}
+  
+  
+  onModuleInit() {
+    this.userService = this.client.getService<UserServiceClient>(USER_SERVICE_NAME) 
+  }
+
+  
+
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.userService.createUser(createUserDto);
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.userService.listUsers({});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userService.getUser({id});
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+   
+    return this.userService.updateUser({id,...updateUserDto});
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userService.deleteUser({id});
   }
 }
